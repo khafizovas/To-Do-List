@@ -1,4 +1,8 @@
+let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+
 window.onload = () => {
+    taskList.forEach(elem => addNewTask(elem));
+
     document.querySelector('#add-task-button').onclick = addNewTask;
 
     for (let button of document.querySelectorAll('.delete-btn')) {
@@ -6,13 +10,19 @@ window.onload = () => {
     }
 }
 
-function addNewTask() {
+function addNewTask(taskName) {
     const inputField = document.querySelector("#input-task");
     const tasksList = document.querySelector("#task-list");
 
-    if (inputField.value !== '') {
-        tasksList.appendChild(newTask(inputField.value));
-        inputField.value = '';
+    if (inputField.value || taskName) {
+        tasksList.appendChild(newTask(inputField.value || taskName));
+
+        if (inputField.value) {
+            taskList.push(inputField.value);
+            localStorage.setItem("tasks", JSON.stringify(taskList));
+
+            inputField.value = '';
+        }
     }
 }
 
@@ -55,5 +65,8 @@ function newTaskDeleteBtn() {
 
 function deleteTask(e) {
     e.target.parentElement.remove();
+
+    taskList.splice(taskList.indexOf(e.target.previousSibling.textContent), 1);
+    localStorage.setItem("tasks", JSON.stringify(taskList));
 }
 
