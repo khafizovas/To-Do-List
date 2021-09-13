@@ -13,8 +13,7 @@ function addNewTask() {
     if (inputField.value !== '') {
         const newTask = document.createElement('li');
 
-        const newTaskCheckbox = document.createElement('input');
-        newTaskCheckbox.type = 'checkbox';
+        newTask.appendChild(newTaskCheckbox());
 
         const newTaskName = document.createElement('span');
         newTaskName.className = 'task';
@@ -25,7 +24,6 @@ function addNewTask() {
         newTaskDeleteBtn.textContent = 'x';
         newTaskDeleteBtn.onclick = deleteTask;
 
-        newTask.appendChild(newTaskCheckbox);
         newTask.appendChild(newTaskName);
         newTask.appendChild(newTaskDeleteBtn);
 
@@ -33,6 +31,13 @@ function addNewTask() {
     }
 
     inputField.value = '';
+}
+
+function newTaskCheckbox() {
+    const newTaskCheckbox = document.createElement('input');
+    newTaskCheckbox.type = 'checkbox';
+
+    return newTaskCheckbox;
 }
 
 function deleteTask(e) {
