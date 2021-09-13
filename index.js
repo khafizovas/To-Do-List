@@ -11,20 +11,24 @@ function addNewTask() {
     const tasksList = document.querySelector("#task-list");
 
     if (inputField.value !== '') {
-        const newTask = document.createElement('li');
-
-        newTask.appendChild(newTaskCheckbox());
-        newTask.appendChild(newTaskName(inputField.value));
-        newTask.appendChild(newTaskDeleteBtn());
-
-        tasksList.appendChild(newTask);
+        tasksList.appendChild(newTask(inputField.value));
+        inputField.value = '';
     }
+}
 
-    inputField.value = '';
+function newTask(taskName) {
+    const newTask = document.createElement('li');
+
+    newTask.appendChild(newTaskCheckbox());
+    newTask.appendChild(newTaskName(taskName));
+    newTask.appendChild(newTaskDeleteBtn());
+
+    return newTask;
 }
 
 function newTaskCheckbox() {
     const newTaskCheckbox = document.createElement('input');
+
     newTaskCheckbox.type = 'checkbox';
 
     return newTaskCheckbox;
@@ -32,6 +36,7 @@ function newTaskCheckbox() {
 
 function newTaskName(text) {
     const newTaskName = document.createElement('span');
+
     newTaskName.className = 'task';
     newTaskName.textContent = text;
 
@@ -40,6 +45,7 @@ function newTaskName(text) {
 
 function newTaskDeleteBtn() {
     const newTaskDeleteBtn = document.createElement('button');
+
     newTaskDeleteBtn.className = 'delete-btn';
     newTaskDeleteBtn.textContent = 'x';
     newTaskDeleteBtn.onclick = deleteTask;
