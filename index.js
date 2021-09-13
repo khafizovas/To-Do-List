@@ -15,13 +15,7 @@ function addNewTask() {
 
         newTask.appendChild(newTaskCheckbox());
         newTask.appendChild(newTaskName(inputField.value));
-
-        const newTaskDeleteBtn = document.createElement('button');
-        newTaskDeleteBtn.className = 'delete-btn';
-        newTaskDeleteBtn.textContent = 'x';
-        newTaskDeleteBtn.onclick = deleteTask;
-
-        newTask.appendChild(newTaskDeleteBtn);
+        newTask.appendChild(newTaskDeleteBtn());
 
         tasksList.appendChild(newTask);
     }
@@ -42,6 +36,15 @@ function newTaskName(text) {
     newTaskName.textContent = text;
 
     return newTaskName;
+}
+
+function newTaskDeleteBtn() {
+    const newTaskDeleteBtn = document.createElement('button');
+    newTaskDeleteBtn.className = 'delete-btn';
+    newTaskDeleteBtn.textContent = 'x';
+    newTaskDeleteBtn.onclick = deleteTask;
+
+    return newTaskDeleteBtn;
 }
 
 function deleteTask(e) {
