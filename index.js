@@ -1,5 +1,9 @@
 window.onload = () => {
-    document.querySelector("#add-task-button").onclick = addNewTask;
+    document.querySelector('#add-task-button').onclick = addNewTask;
+
+    for (let button of document.querySelectorAll('.delete-btn')) {
+        button.onclick = deleteTask;
+    }
 }
 
 function addNewTask() {
@@ -19,6 +23,7 @@ function addNewTask() {
         const newTaskDeleteBtn = document.createElement('button');
         newTaskDeleteBtn.className = 'delete-btn';
         newTaskDeleteBtn.textContent = 'x';
+        newTaskDeleteBtn.onclick = deleteTask;
 
         newTask.appendChild(newTaskCheckbox);
         newTask.appendChild(newTaskName);
@@ -29,3 +34,8 @@ function addNewTask() {
 
     inputField.value = '';
 }
+
+function deleteTask(e) {
+    e.target.parentElement.remove();
+}
+
