@@ -1,0 +1,46 @@
+body {
+    background: #f1faee;
+    color: #1d3557;
+
+    padding: 2%;
+    text-align: center;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+#input-task {
+    background: #f1faee;
+
+    border: none;
+    border-bottom: solid #1d3557 0.2em;
+}
+
+#add-task-button {
+    background: #457b9d;
+    color: #fff;
+
+    border: none;
+
+    padding: 0.5%;
+    margin: 0.5%;
+
+    font-size: 1em;
+}
+
+li {
+    list-style: none;
+
+    margin: 1%;
+}
+
+.delete-btn {
+    background: #e63946;
+    color: #fff;
+
+    margin-left: 5%;
+
+    border: none;
+    border-radius: 50%;
+}
