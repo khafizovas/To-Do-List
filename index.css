@@ -44,3 +44,7 @@ li {
     border: none;
     border-radius: 50%;
 }
+
+input[type="checkbox"]:checked + span {
+    text-decoration: line-through;
+}
