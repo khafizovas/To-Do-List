@@ -68,7 +68,6 @@ function newTaskDeleteBtn() {
 
 function deleteTask(e) {
     e.target.parentElement.remove();
-
     taskList = taskList.filter(task => task.text !== e.target.previousSibling.textContent);
 
     localStorage.setItem("tasks", JSON.stringify(taskList));
@@ -79,14 +78,14 @@ function toggleCompletion(e) {
     let isComplete = taskText.style.textDecoration === 'line-through';
 
     taskText.style.textDecoration = isComplete ? 'none' : 'line-through';
-    isComplete = taskText.style.textDecoration === 'line-through';
 
-    taskList = taskList.map(task => {
+    for (let task of taskList) {
         if (task.text === taskText.textContent) {
-            task.checked = isComplete;
+            task.checked = !isComplete;
+
+            break;
         }
-        return task;
-    });
+    }
 
     localStorage.setItem("tasks", JSON.stringify(taskList));
 }
