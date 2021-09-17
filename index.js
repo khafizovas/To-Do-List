@@ -2,12 +2,7 @@ let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 
 window.onload = () => {
     taskList.forEach(elem => addNewTask(elem));
-
     document.querySelector('#add-task-button').onclick = addNewTask;
-
-    for (let button of document.querySelectorAll('.delete-btn')) {
-        button.onclick = deleteTask;
-    }
 }
 
 function addNewTask(cachedTask) {
