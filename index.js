@@ -10,15 +10,16 @@ window.onload = () => {
     }
 }
 
-function addNewTask(taskName) {
+function addNewTask(cachedTask) {
     const inputField = document.querySelector("#input-task");
     const tasksList = document.querySelector("#task-list");
 
-    if (inputField.value || taskName) {
-        tasksList.appendChild(newTask(inputField.value || taskName));
+    // TODO: adding doesn't work right but caching is OK
+    if (inputField.value || cachedTask) {
+        tasksList.appendChild(newTask(inputField.value || cachedTask));
 
         if (inputField.value) {
-            taskList.push(inputField.value);
+            taskList.push({text: inputField.value, checked: false});
             localStorage.setItem("tasks", JSON.stringify(taskList));
 
             inputField.value = '';
@@ -26,11 +27,11 @@ function addNewTask(taskName) {
     }
 }
 
-function newTask(taskName) {
+function newTask(cachedTask) {
     const newTask = document.createElement('li');
 
     newTask.appendChild(newTaskCheckbox());
-    newTask.appendChild(newTaskName(taskName));
+    newTask.appendChild(newTaskName(cachedTask));
     newTask.appendChild(newTaskDeleteBtn());
 
     return newTask;
@@ -40,15 +41,20 @@ function newTaskCheckbox() {
     const newTaskCheckbox = document.createElement('input');
 
     newTaskCheckbox.type = 'checkbox';
+    newTaskCheckbox.onclick = toggleCompletion;
 
     return newTaskCheckbox;
 }
 
-function newTaskName(text) {
+function newTaskName(cachedTask) {
     const newTaskName = document.createElement('span');
 
     newTaskName.className = 'task';
-    newTaskName.textContent = text;
+    newTaskName.textContent = cachedTask.text;
+
+    if (cachedTask.checked) {
+        newTaskName.previousSibling.checked = true;
+    }
 
     return newTaskName;
 }
@@ -65,8 +71,25 @@ function newTaskDeleteBtn() {
 
 function deleteTask(e) {
     e.target.parentElement.remove();
+    
+    taskList = taskList.filter(task => task.text !== e.target.previousSibling.textContent);
 
-    taskList.splice(taskList.indexOf(e.target.previousSibling.textContent), 1);
     localStorage.setItem("tasks", JSON.stringify(taskList));
 }
 
+function toggleCompletion(e) {
+    const taskText = e.target.nextSibling;
+    let isComplete = taskText.style.textDecoration === 'line-through';
+
+    taskText.style.textDecoration = isComplete ? 'none' : 'line-through';
+    isComplete = taskText.style.textDecoration === 'line-through';
+
+    taskList = taskList.map(task => {
+        if (task.text === taskText.textContent) {
+            task.checked = isComplete;
+        }
+        return task;
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+}
