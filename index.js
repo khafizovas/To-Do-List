@@ -14,9 +14,10 @@ function addNewTask(cachedTask) {
     const inputField = document.querySelector("#input-task");
     const tasksList = document.querySelector("#task-list");
 
-    // TODO: adding doesn't work right but caching is OK
-    if (inputField.value || cachedTask) {
-        tasksList.appendChild(newTask(inputField.value || cachedTask));
+    const taskText = inputField.value || cachedTask.text;
+
+    if (taskText) {
+        tasksList.appendChild(newTask({text: taskText, checked: cachedTask?.checked}));
 
         if (inputField.value) {
             taskList.push({text: inputField.value, checked: false});
@@ -27,33 +28,34 @@ function addNewTask(cachedTask) {
     }
 }
 
-function newTask(cachedTask) {
+function newTask(newTaskFields) {
     const newTask = document.createElement('li');
 
-    newTask.appendChild(newTaskCheckbox());
-    newTask.appendChild(newTaskName(cachedTask));
+    newTask.appendChild(newTaskCheckbox(newTaskFields.checked));
+    newTask.appendChild(newTaskName(newTaskFields));
     newTask.appendChild(newTaskDeleteBtn());
 
     return newTask;
 }
 
-function newTaskCheckbox() {
+function newTaskCheckbox(isChecked) {
     const newTaskCheckbox = document.createElement('input');
 
     newTaskCheckbox.type = 'checkbox';
+    newTaskCheckbox.checked = isChecked;
     newTaskCheckbox.onclick = toggleCompletion;
 
     return newTaskCheckbox;
 }
 
-function newTaskName(cachedTask) {
+function newTaskName(newTaskFields) {
     const newTaskName = document.createElement('span');
 
     newTaskName.className = 'task';
-    newTaskName.textContent = cachedTask.text;
+    newTaskName.textContent = newTaskFields.text;
 
-    if (cachedTask.checked) {
-        newTaskName.previousSibling.checked = true;
+    if (newTaskFields.checked) {
+        newTaskName.style.textDecoration = 'line-through';
     }
 
     return newTaskName;
@@ -71,7 +73,7 @@ function newTaskDeleteBtn() {
 
 function deleteTask(e) {
     e.target.parentElement.remove();
-    
+
     taskList = taskList.filter(task => task.text !== e.target.previousSibling.textContent);
 
     localStorage.setItem("tasks", JSON.stringify(taskList));
