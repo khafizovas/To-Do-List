@@ -12,10 +12,10 @@ function addNewTask(cachedTask) {
     const taskText = inputField.value || cachedTask.text;
 
     if (taskText) {
-        tasksList.appendChild(newTask({text: taskText, checked: cachedTask?.checked}));
+        tasksList.appendChild(newTask({ text: taskText, checked: cachedTask?.checked }));
 
         if (inputField.value) {
-            taskList.push({text: inputField.value, checked: false});
+            taskList.push({ text: taskText, checked: false });
             localStorage.setItem("tasks", JSON.stringify(taskList));
 
             inputField.value = '';
